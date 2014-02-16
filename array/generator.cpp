@@ -79,24 +79,24 @@ void subtask1()
 void subtask2()
 {
 	// Boundary cases
-	beginCase(2, 1);	equalElementsArray(1e0, 1e0);	endCase();
-	beginCase(2, 2);	equalElementsArray(1e0, 1e3);	endCase();
-	beginCase(2, 3);	equalElementsArray(1e3, 1e0);	endCase();
-	beginCase(2, 4);	equalElementsArray(1e3, 1e3);	endCase();
+	beginCase(2, 1);	equalElementsArray(1e3+1, 1e0);	endCase();
+	beginCase(2, 2);	equalElementsArray(1e3+1, 1e9);	endCase();
+	beginCase(2, 3);	equalElementsArray(1e3+1, 1e0);	endCase();
+	beginCase(2, 4);	equalElementsArray(1e3+1, 1e9);	endCase();
 
 	// Uniformly random cases
-	beginCase(2, 5);	randomArray(1e1, 1e3);			endCase();
-	beginCase(2, 6);	randomArray(1e2, 1e3);			endCase();
-	beginCase(2, 7);	randomArray(1e3, 1e3);			endCase();
-	beginCase(2, 8);	randomArray(1e3, 1e3);			endCase();
+	beginCase(2, 5);	randomArray(1e4, 1e9);			endCase();
+	beginCase(2, 6);	randomArray(1e4, 1e9);			endCase();
+	beginCase(2, 7);	randomArray(1e5, 1e9);			endCase();
+	beginCase(2, 8);	randomArray(1e5, 1e9);			endCase();
 
 	// Big random cases
-	beginCase(2, 9);	randomArray(1e3, 1e3, 10);		endCase();
-	beginCase(2, 10);	randomArray(1e3, 1e3, 10);		endCase();
+	beginCase(2, 9);	randomArray(1e5, 1e9, 10);		endCase();
+	beginCase(2, 10);	randomArray(1e5, 1e9, 10);		endCase();
 
 	// Small random cases
-	beginCase(2, 11);	randomArray(1e3, 1e3, -10);		endCase();
-	beginCase(2, 12);	randomArray(1e3, 1e3, -10);		endCase();
+	beginCase(2, 11);	randomArray(1e5, 1e9, -10);		endCase();
+	beginCase(2, 12);	randomArray(1e5, 1e9, -10);		endCase();
 }
 
 int main(int argc, char* argv[])
