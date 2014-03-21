@@ -1,25 +1,96 @@
-# tokilib [UNDER CONSTRUCTION!]
+# tokilib
 
-## Description
-**tokilib** is a C++ framework for generating test cases for competitive programming problems. It currently only support *batch* problems, i.e. problems whose test cases consist of .in and .out files.
+**tokilib** is a C++ framework for generating test cases for competitive programming problems. It currently only support *batch* problems, i.e. problems whose test cases consist of .in and .out files. It currently only works in Linux. It has been used for IOI training camps in Indonesia.
+
+This framework is essentially a wrapper for [testlib](http://code.google.com/p/testlib/) framework.
+
+tokilib is licensed using GNU LGPL v3.0.
+
+## Concepts
+First, let's introduce some terms used in this documentation.
+
+- A **subtask** is a set of test cases which have the same constraints. This term originates from IOI 2010. A problem usually contains several subtasks. The subtasks are numbered starting from 1. We can have a special subtask called **sample subtask** which serves as the example input/output test cases. This subtask will be numbered 0.
+- A **test case** consists of one input and one output files. A test case belongs to exactly one subtask. Within a subtask, the test cases are numbered starting from 1.
+- A **generator** is a C++ file that when executed, will generate the test cases for a particular problem.
+- A **validator** is a C++ file that takes a single test case input file, and when executed, will determine whether the test case is valid according to the specified constraints in the subtask.
+- A **slug** is the codename of the problem, preferrably in lowercase letters and has no spaces.
 
 ## Usage
-To create test cases for a single problem, you will require these files
+Here are the steps for generating test cases for a single problem.
 
-### 1. testlib Header (testlib.h)
-This framework uses [testlib](http://code.google.com/p/testlib/) version 0.9.5 (already included). It contains all methods used for generating the test cases.
+### Setting up the framework
+You will need a directory containing the solution, generator, and validator. You can copy the **template**/ directory for reference. You will also need testlib.h and tokilib.h in the same directory. Typically they are placed outside the problem directories so that you can use one copy of each for all problems.
 
-### 2. tokilib Header (tokilib.h)
-This header contains additional methods used for executing the test case generation and validating the resulting test cases.
+### Writing the validator
+It is advisable to write the validator first before the generator. The template for a validator can be found in **template/validator.cpp**. It must include tokilib.h. Please refer to the template for the suggested structure of a validator.
 
-### 3. Generator (generator.cpp)
-This file generates the test cases. It must include **tokilib.h**. You can find a template for this file inside **template/** directory. 
+A validator essentially a program that reads the input file and verifies that all constraints are satisfied. Here are examples of most commonly used method calls for reading and verifying inputs. Please refer to testlib for full documentation.
 
-#### Concepts
-A **subtask** is a set of test cases which have the same constraints. This term originates from IOI 2010. A problem usually contains several subtasks. A test case belongs to exactly one subtask.
+- **int N = inf.readInt(minv, maxv, "N")** -- Reads an int named N, and verifies that minv &le; N &le; maxv.
+- **long N = inf.readLong(minv, maxv, "N")** -- Reads a long named N, and verifies that minv &le; N &le; maxv.
+- **double N = inf.readDouble(minv, maxv, "N")** -- Reads a double named N, and verifies that minv &le; N &le; maxv.
+- **string S = inf.readToken(format("[a-zA-Z]{1, %d}", maxl), "S")** -- Reads a token named S, and verifies that S contains between 1 and maxl characters 'a'-'z', 'A'-'Z'.
+- **readSpace()** -- Reads a space.
+- **readEoln()** -- Reads a new line.
+- **readEof()** -- Verifies that EOF has been reached.
 
-The subtasks are numbered from 1. Within a subtask, the test cases are numbered from 1. We can have a special subtask called **sample subtask** which serves as the example input/output test cases. This subtask will be numbered 0.
+Inside the **main()** method, you should call these methods:
 
-### 4. Validator (validator.cpp)
+- **beginValidator(argc, argv, &subtask, &testCase)** - Begins a validator. The subtask number and test case number are stored in **subtask** and **testCase**, respectively.
+- Validation method calls.
+- **endValidator()** - Ends a validator.
 
-### 5. Solution
+### Writing the generator
+The template for a generator can be found in **template/generator.cpp**. It must include tokilib.h. Please refer to the template for the suggested structure of a generator.
+
+A subtask is started with **beginSubtask()** call (except for sample subtask: it is started with **beginSampleSubtask()**), followed by the test cases, and ended with **endSubtask()** call.
+
+A test case is started with **beginTestCase()** call, followed by a print call, and ended with **endTestCase()** call. It is suggested that all method calls for a test case are in a single line.
+
+A print call is a method call that prints a whole single test case. It is suggested that it is in this format:
+
+- For a sample test case: **printSampleX()** where X is the test case number.
+- For an actual test case: **print(*component1*, *component2*, ...)**.
+
+A component is a data structure that is generated independently from all other components. For example, if the test case contains a string and an array, then you have two components that can be generated independently. It is suggested that a component is generated by a method call that specifies the type of the generated component. For example, if you want a test case with a random string of 100 characters and an array with 200 equal elements, you may write **print(randomString(100), equalElementArray(200))**. For a sample test case, the method should print the test case line-by-line.
+
+You can refer to **components/** directory for a sample implementation of several commonly used components.
+
+Here are examples of most commonly used method calls for generating components. Please refer to testlib for full documentation.
+
+- **rnd.next()** -- Generates a random double value in range [0, 1).
+- **rnd.next(X)** -- Generates a random value in range [0, X).
+- **rnd.next(from, to)** -- Generates a random value in range [from, to).
+- **rnd.next(format("[a-z]{minl, maxl}"))** -- Generates a random string of [minl, maxl] characters 'a'-'z'.
+- **shuffle(begin, end)** -- Random shuffle elements in [begin, end) iterators.
+
+The type of value returned by **rnd.next()** calls depends on the type of the parameters.
+
+Inside the **main()** method, you should call these methods:
+
+- **beginGenerator(argc, argv)** - Begins a generator.
+- **setSlug(slug)** - Sets the slug (codename). 
+- **setMode(mode)** - Sets the mode. It should be either "single" (each test case in a single file) or "multiple" (all test cases in a subtask are in a single file, preceded with the number of test cases).
+- **setSolution(command)** Sets the command for running the solution. Typically it is "./solution" or "java Solution".
+- **setValidator(command)** Sets the command for running the validator. Typically it is "./validator".
+- Test case generation methods.
+- **endGenerator()** - Ends a generator.
+
+### Writing a solution
+Write the reference solution for the problem.
+
+### Running the generator
+To actually generate the test cases, perform these steps:
+
+- Compile the solution.
+- Compile the validator.
+- Compile the generator.
+- Run the generator: **./generator seed** where seed is any number. You can omit seed.
+
+Then, you can see the status of the test case generation. The test cases will be stored in **tc/** directory.
+
+## Examples
+Please see the examples provided in **components/** directory for a better understanding of the suggested structure of good generators and validators.
+
+## Feedback
+Any feedback? Mail me at fushar@gmail.com or post it as an issue :)
