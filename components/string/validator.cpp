@@ -11,7 +11,8 @@ int subtask, testCase;
 
 void validate(int len_max)
 {
-	inf.readString(format("[a-zA-Z]{1,%d}", len_max), "S");
+	inf.readToken(format("[a-zA-Z]{1,%d}", len_max), "S");
+	inf.readEoln();
 	inf.readEof();
 }
 
