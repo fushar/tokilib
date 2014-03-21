@@ -11,63 +11,102 @@
 #include "testlib.h"
 
 #include <cstdlib>
+#include <cstdarg>
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <string>
+#include <vector>
 
-static std::string __tokilib_problemCode = "problem";
-static std::string __tokilib_testCaseDir = "tc";
-static std::string __tokilib_solution = "";
-static std::string __tokilib_validator = "";
-static int __tokilib_currentSubtask;
-static int __tokilib_currentTestCase;
+static std::string mode = "single";
+static std::string slug = "problem";
+static std::string solution = "";
+static std::string validator = "";
+static int cur_subtask = 0;
+static int cur_test_case;
+static bool has_errors;
 
-void setTestCaseDir(std::string dir)
+void setMode(std::string mode)
 {
-	__tokilib_testCaseDir = dir;
-
-	std::ostringstream sout;
-	sout << "rm -rf " << dir << " && " << "mkdir -p " << dir;
-
-	system(sout.str().c_str());
+	::mode = mode;
 }
 
-void setProblemCode(std::string code)
+void setSlug(std::string slug)
 {
-	__tokilib_problemCode = code;
+	::slug = slug;
 }
 
-void setSolution(std::string exe)
+void setSolution(std::string solution)
 {
-	__tokilib_solution = exe;
+	::solution = solution;
 }
 
-void setValidator(std::string exe)
+void setValidator(std::string validator)
 {
-	__tokilib_validator = exe;
+	::validator = validator;
 }
 
-void beginCase(int subtask, int testCase)
+void beginSampleSubtask()
 {
-	__tokilib_currentSubtask = subtask;
-	__tokilib_currentTestCase = testCase;
-
-	std::ostringstream sout;
-	sout << __tokilib_testCaseDir << "/" << __tokilib_problemCode << "_" << subtask << "_" << testCase << ".in";
-	std::cerr << "Generating test case " << subtask << "/" << testCase << " ...\t" << std::flush;
-
-	freopen(sout.str().c_str(), "w", stdout);
+	std::cerr << std::endl;
+	cur_subtask = 0;
+	cur_test_case = 0;
 }
 
-void endCase()
+void beginSubtask()
 {
-	if (__tokilib_validator != "")
+	std::cerr << std::endl;
+	cur_subtask++;
+	cur_test_case = 0;
+}
+
+void endSubtask()
+{
+	if (mode == "single")
+		return;
+
+	std::string command;
+
+	command = format("echo %d > tc/%s_%d.in", cur_test_case, slug.c_str(), cur_subtask);
+	system(command.c_str());
+	
+	for (int tc = 1; tc <= cur_test_case; tc++)
 	{
-		std::ostringstream sout;
-		sout << __tokilib_validator << " " << __tokilib_currentSubtask << " " << __tokilib_currentTestCase << " < ";
-		sout << __tokilib_testCaseDir << "/" << __tokilib_problemCode << "_" << __tokilib_currentSubtask << "_" << __tokilib_currentTestCase << ".in";
-		sout << " 2>&1";
-		FILE* proc = popen(sout.str().c_str(), "r");
+		command = format("cat tc/%s_%d_%d.in >> tc/%s_%d.in",
+						 slug.c_str(), cur_subtask, tc,
+						 slug.c_str(), cur_subtask);
+		system(command.c_str());
+		command = format("cat tc/%s_%d_%d.out >> tc/%s_%d.out",
+						 slug.c_str(), cur_subtask, tc,
+						 slug.c_str(), cur_subtask);
+		system(command.c_str());
+		command = format("rm tc/%s_%d_%d.in tc/%s_%d_%d.out",
+						 slug.c_str(), cur_subtask, tc,
+						 slug.c_str(), cur_subtask, tc);
+		system(command.c_str());
+	}
+}
+
+void beginTestCase()
+{
+	cur_test_case++;
+	
+	std::cerr << "Generating test case " << cur_subtask << "/" << cur_test_case << " ...\t" << std::flush;
+	std::string filename = format("tc/%s_%d_%d.in", slug.c_str(), cur_subtask, cur_test_case);
+
+	freopen(filename.c_str(), "w", stdout);
+}
+
+void endTestCase()
+{
+	if (validator != "")
+	{
+
+		std::string command = format("%s %d %d < tc/%s_%d_%d.in 2>&1",
+									 validator.c_str(), cur_subtask, cur_test_case,
+									 slug.c_str(), cur_subtask, cur_test_case);
+
+		FILE* proc = popen(command.c_str(), "r");
 
 		char buf[1024];
 		bool any = false;
@@ -80,22 +119,28 @@ void endCase()
 		}
 
 		if (pclose(proc) >> 8)
+		{
 			std::cerr << "\t\t\t\t[validation \x1b[31;1mFAILED\x1b[0m]\t" << std::flush;
+			has_errors = true;
+		}
 		else
 			std::cerr << "[validation \x1b[32;1mOK\x1b[0m]\t\t" << std::flush;
 	}
 	
-	if (__tokilib_solution != "")
+	if (solution != "")
 	{
-		std::ostringstream sout;
-		sout << __tokilib_solution << " < ";
-		sout << __tokilib_testCaseDir << "/" << __tokilib_problemCode << "_" << __tokilib_currentSubtask << "_" << __tokilib_currentTestCase << ".in > ";
-		sout << __tokilib_testCaseDir << "/" << __tokilib_problemCode << "_" << __tokilib_currentSubtask << "_" << __tokilib_currentTestCase << ".out";
-		sout << " 2>&1";
-		FILE* proc = popen(sout.str().c_str(), "r");
+		std::string command = format("%s < tc/%s_%d_%d.in > tc/%s_%d_%d.out 2>&1",
+									 solution.c_str(),
+									 slug.c_str(), cur_subtask, cur_test_case,
+									 slug.c_str(), cur_subtask, cur_test_case);
+		
+		FILE* proc = popen(command.c_str(), "r");
 
 		if (pclose(proc) >> 8)
+		{
 			std::cerr << "\t[output \x1b[31;1mFAILED\x1b[0m]" << std::flush;
+			has_errors = true;
+		}
 		else
 			std::cerr << " [output \x1b[32;1mOK\x1b[0m]" << std::flush;
 	}
@@ -103,7 +148,25 @@ void endCase()
 	std::cerr << std::endl;
 }
 
-void extractValidationInfo(int argc, char* argv[], int& subtask, int& testCase)
+void beginGenerator(int argc, char* argv[])
+{
+	registerGen(argc, argv, 1);
+	system("rm -rf tc");
+	system("mkdir -p tc");
+	has_errors = false;
+}
+
+void endGenerator()
+{
+	std::cerr << std::endl;
+	if (has_errors)
+		std::cerr << "Some test cases failed!" << std::endl;
+	else
+		std::cerr << "All test cases OK!" << std::endl;
+	std::cerr << std::endl;
+}
+
+void beginValidator(int argc, char* argv[], int* subtask, int* testCase)
 {
 	if (argc != 3)
 	{
@@ -111,11 +174,27 @@ void extractValidationInfo(int argc, char* argv[], int& subtask, int& testCase)
 		exit(1);
 	}
 
+	registerValidation();
+
 	std::stringstream ss;
-	ss << argv[1];
-	ss >> subtask;
-	ss << argv[2];
-	ss >> testCase;
+	ss << argv[1] << " " << argv[2];
+	ss >> *subtask >> *testCase;
+}
+
+void endValidator()
+{
+	// TODO
+}
+
+std::vector<int> make_array(int n, ...)
+{
+	std::vector<int> ar;
+	va_list vl;
+	va_start(vl, n);
+	for (int i = 0; i < n; i++)
+		ar.push_back(va_arg(vl, int));
+	va_end(vl);
+	return ar;
 }
 
 #endif

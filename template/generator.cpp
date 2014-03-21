@@ -2,22 +2,25 @@
  * Test Case Generator via testlib
  * 
  * <problem name>
- * <creator of this file>
+ * <author of this file>
  */
 
 #include "../tokilib.h"
 
 /* <your own template> */
 
-/* <test case function definitions> */
+/* <test case generation function definitions> */
 
 int main(int argc, char* argv[])
 {
-	registerGen(argc, argv, 1);
-	setProblemCode("problem");
-	setTestCaseDir("tc");
-	//setSolution("./solution");
-	//setValidator("./validator");
+	beginGenerator(argc, argv);
+
+	setSlug("problem");
+	setMode("single");
+	setSolution("./solution");
+	setValidator("./validator");
 
 	/* <test case generation function calls> */
+
+	endGenerator();
 }

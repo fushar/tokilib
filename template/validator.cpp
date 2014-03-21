@@ -2,7 +2,7 @@
  * Test Case Validator via testlib
  * 
  * <problem name>
- * <creator of this file>
+ * <author of this file>
  */
 
 #include "../tokilib.h"
@@ -11,10 +11,11 @@
 
 int subtask, testCase;
 
+/* <test case validation function definitions> */
+
 int main(int argc, char* argv[])
 {
-	registerValidation();
-	extractValidationInfo(argc, argv, subtask, testCase);
+	beginValidator(argc, argv, &subtask, &testCase);
 
 	switch (subtask)
 	{

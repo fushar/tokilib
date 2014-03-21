@@ -1,7 +1,7 @@
 /*
  * Official Solution
  * 
- * Two Numbers
+ * Pair
  * TOKI Scientific Committee
  */
 
@@ -10,5 +10,5 @@ using namespace std;
 
 int main()
 {
-	cerr << "This is only a mock solution!" << endl;
+	cout << "Solution goes here!" << endl;
 }
