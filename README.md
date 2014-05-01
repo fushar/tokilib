@@ -36,9 +36,9 @@ A validator essentially a program that reads the input file and verifies that al
 
 Inside the **main()** method, you should call these methods:
 
-- **beginValidator(argc, argv, &subtask, &testCase)** - Begins a validator. The subtask number and test case number are stored in **subtask** and **testCase**, respectively.
+- **beginValidator(argc, argv, &subtask, &testCase)** -- Begins a validator. The subtask number and test case number are stored in **subtask** and **testCase**, respectively.
 - Validation method calls.
-- **endValidator()** - Ends a validator.
+- **endValidator()** -- Ends a validator.
 
 ### Writing the generator
 The template for a generator can be found in **template/generator.cpp**. It must include tokilib.h. Please refer to the template for the suggested structure of a generator.
@@ -68,13 +68,13 @@ The type of value returned by **rnd.next()** calls depends on the type of the pa
 
 Inside the **main()** method, you should call these methods:
 
-- **beginGenerator(argc, argv)** - Begins a generator.
-- **setSlug(slug)** - Sets the slug (codename). 
-- **setMode(mode)** - Sets the mode. It should be either "single" (each test case in a single file) or "multiple" (all test cases in a subtask are in a single file, preceded with the number of test cases).
+- **beginGenerator(argc, argv)** -- Begins a generator.
+- **setSlug(slug)** -- Sets the slug (codename). 
+- **setMode(mode)** -- Sets the mode. It should be either "single" (each test case in a single file) or "multiple" (all test cases in a subtask are in a single file, preceded with the number of test cases).
 - **setSolution(command)** Sets the command for running the solution. Typically it is "./solution" or "java Solution".
 - **setValidator(command)** Sets the command for running the validator. Typically it is "./validator".
 - Test case generation methods.
-- **endGenerator()** - Ends a generator.
+- **endGenerator()** -- Ends a generator.
 
 ### Writing a solution
 Write the reference solution for the problem.
