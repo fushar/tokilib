@@ -60,7 +60,7 @@ Here are examples of most commonly used method calls for generating components. 
 
 - **rnd.next()** -- Generates a random double value in range [0, 1).
 - **rnd.next(X)** -- Generates a random value in range [0, X).
-- **rnd.next(from, to)** -- Generates a random value in range [from, to).
+- **rnd.next(from, to)** -- Generates a random value in range [from, to].
 - **rnd.next(format("[a-z]{minl, maxl}"))** -- Generates a random string of [minl, maxl] characters 'a'-'z'.
 - **shuffle(begin, end)** -- Random shuffle elements in [begin, end) iterators.
 
