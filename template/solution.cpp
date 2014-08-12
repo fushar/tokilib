@@ -1,14 +1,12 @@
 /*
  * Official Solution
  * 
- * <problem name>
- * <author of this file>
+ * Problem: XXX
+ * Problem author: XXX
+ * Solution author: XXX
  */
-
-#include <iostream>
-using namespace std;
 
 int main()
 {
-	cout << "Solution goes here!" << endl;
+
 }

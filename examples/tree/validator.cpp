@@ -1,16 +1,17 @@
 /*
- * Test Case Validator via testlib
+ * Test Case Validator via tokilib
  * 
- * Tree
- * TOKI Scientific Committee
+ * Problem: Tree
+ * Problem author: TOKI Scientific Committee
+ * Validator author: TOKI Scientific Committee
  */
 
-#include "../../tokilib.h"
-
-int subtask, testCase;
+#include "../../validator.h"
 
 int N;
 int par[100000];
+
+int N_min, N_max;
 
 int find_set(int x)
 {
@@ -26,7 +27,7 @@ void merge_set(int a, int b)
 	par[a] = b;
 }
 
-void validate(int N_min, int N_max)
+void validateCase()
 {
 	N = inf.readInt(N_min, N_max, "N");
 	inf.readEoln();
@@ -51,15 +52,9 @@ void validate(int N_min, int N_max)
 
 int main(int argc, char* argv[])
 {
-	beginValidator(argc, argv, &subtask, &testCase);
+	beginValidator(argc, argv);
 
-	switch (subtask)
-	{
-	case 0:
-	case 1:
-		validate(2, 1e5);
-		break;
-	}
+	beginSubtask();	{ N_min = 2; N_max = 1e5; }	endSubtask();
 
 	endValidator();
 }

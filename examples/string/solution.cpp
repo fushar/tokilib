@@ -1,8 +1,9 @@
 /*
  * Official Solution
  * 
- * String
- * TOKI Scientific Committee
+ * Problem: String
+ * Problem author: TOKI Scientific Committee
+ * Solution author: TOKI Scientific Committee
  */
 
 #include <iostream>

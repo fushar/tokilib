@@ -1,8 +1,9 @@
 /*
  * Official Solution
  * 
- * Tree
- * TOKI Scientific Committee
+ * Problem: Array
+ * Problem author: TOKI Scientific Committee
+ * Solution author: TOKI Scientific Committee
  */
 
 #include <iostream>

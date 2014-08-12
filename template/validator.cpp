@@ -1,34 +1,23 @@
 /*
- * Test Case Validator via testlib
+ * Test Case Validator via tokilib
  * 
- * <problem name>
- * <author of this file>
+ * Problem: XXX
+ * Problem author: XXX
+ * Validator author: XXX
  */
 
-#include "../tokilib.h"
+#include "../validator.h"
 
-/* <your own template> */
+int N_max, elem_max;
 
-int subtask, testCase;
-
-/* <test case validation function definitions> */
+void validateCase()
+{
+	inf.readEof();
+}
 
 int main(int argc, char* argv[])
 {
-	beginValidator(argc, argv, &subtask, &testCase);
+	beginValidator(argc, argv);
 
-	switch (subtask)
-	{
-	case 0:
-		/* <test case validation function calls> */
-		break;
-
-	case 1:
-		/* <test case validation function calls> */
-		break;
-
-	case 2:
-		/* <test case validation function calls> */
-		break;
-	}
+	endValidator();
 }

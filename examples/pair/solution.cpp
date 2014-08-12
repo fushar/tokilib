@@ -1,8 +1,9 @@
 /*
  * Official Solution
  * 
- * Array
- * TOKI Scientific Committee
+ * Problem: Pair
+ * Problem author: TOKI Scientific Committee
+ * Solution author: TOKI Scientific Committee
  */
 
 #include <iostream>

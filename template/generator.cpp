@@ -1,26 +1,43 @@
 /*
- * Test Case Generator via testlib
+ * Test Case Generator via tokilib
  * 
- * <problem name>
- * <author of this file>
+ * Problem: XXX
+ * Problem author: XXX
+ * Generator author: XXX
  */
 
-#include "../tokilib.h"
+#include "../generator.h"
 
-/* <your own template> */
+#include <iostream>
+using namespace std;
 
-/* <test case generation function definitions> */
+void printSampleCase(int tc)
+{
+
+}
+
+void printCase()
+{
+
+}
+
+void batch0()
+{
+	beginSampleBatch();
+
+	endBatch();
+}
 
 int main(int argc, char* argv[])
 {
 	beginGenerator(argc, argv);
 
-	setSlug("problem");
+	setSlug("problem"); 
 	setMode("single");
-	setSolution("./solution");
-	setValidator("./validator");
+	setSolution("solution");
+	setValidator("validator");
 
-	/* <test case generation function calls> */
+	batch0();
 
 	endGenerator();
 }
