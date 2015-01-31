@@ -1,5 +1,13 @@
 # tokilib - Test Case Framework
 
+
+### WARNING - THIS PROJECT IS DEPRECATED
+
+The next generation of test framework will be available soon in https://github.com/tcframe/tcframe. This repository is still here as a legacy.
+
+
+***
+
 **tokilib** is a C++ framework for generating test cases for competitive programming problems. It currently only support *batch* problems, i.e. problems whose test cases consist of .in and .out files. It works in UNIX and Windows. It has been used for IOI training camps in Indonesia.
 
 This framework is essentially a wrapper for [testlib](http://code.google.com/p/testlib/) framework.
