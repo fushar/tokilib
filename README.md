@@ -3,7 +3,7 @@
 
 ### WARNING - THIS PROJECT IS DEPRECATED
 
-The next generation of test framework will be available soon in https://github.com/tcframe/tcframe. This repository is still here as a legacy.
+The next generation of test framework will be available soon in https://github.com/ia-toki/tcframe. This repository is still here as a legacy.
 
 
 ***
