@@ -12,8 +12,6 @@ The next generation of test framework is available in https://github.com/fushar/
 
 This framework is essentially a wrapper for [testlib](http://code.google.com/p/testlib/) framework.
 
-tokilib is licensed using GNU LGPL v3.0.
-
 ## Concepts
 First, let's introduce some terms used in tokilib.
 
@@ -48,9 +46,9 @@ A subtask definition is a set of statements inside the ``main()`` function with 
 Best practices:
 - Name your variables like this: ``N_min``, ``N_max`` where N is a variable in problem statement.
 - Surround the variable assignments with curly braces ``{`` ``}``.
-- Write the subtask definitions in one line like this:  
+- Write the subtask definitions in one line like this:
   ``beginSubtask(); { N_min = 1; N_max = 100; } endSubtask();``
-- or in multiple line like this:  
+- or in multiple line like this:
 
     ```
     beginSubtask();
@@ -64,21 +62,21 @@ Best practices:
 #### 2. Test case validation
 You must write a function ``void validateCase()`` that reads and verifies the input. Here are examples of most commonly used function calls for this purpose. Please refer to testlib.h for full documentation.
 
-- `int N = inf.readInt(N_min, N_max, "N")`  
+- `int N = inf.readInt(N_min, N_max, "N")`
 Reads an int named N, and verifies that N_min &le; N &le; N_max (or abort otherwise).
-- `long N = inf.readLong(N_min, N_max, "N")`  
+- `long N = inf.readLong(N_min, N_max, "N")`
 Reads a long long named N, and verifies that N_min &le; N &le; N_max (or abort otherwise).
-- `double N = inf.readDouble(N_min, N_max, "N")`  
+- `double N = inf.readDouble(N_min, N_max, "N")`
 Reads a double named N, and verifies that N_min &le; N &le; N_max (or abort otherwise).
-- `string S = inf.readToken(format("[a-zA-Z]{1, %d}", N_max), "S")`  
+- `string S = inf.readToken(format("[a-zA-Z]{1, %d}", N_max), "S")`
 Reads a token named S, and verifies that S contains between 1 and N_max characters 'a'-'z', 'A'-'Z' (or abort otherwise).
-- `ensuref(condition, message)`  
+- `ensuref(condition, message)`
 Verifies that condition is satisifed, or aborts and outputs message otherwise.
-- `readSpace()`  
+- `readSpace()`
 Reads a space (or abort if no space found).
-- `readEoln()`  
+- `readEoln()`
 Reads a new line (or abort if no new line found).
-- `readEof()`  
+- `readEof()`
 Verifies that EOF has been reached (or abort otherwise).
 
 Best practices:
@@ -124,21 +122,21 @@ A sample test case definition is a set of statements with the following structur
 - ``endCase()`` call.
 
 Best practices:
-- Write the sample test case definition in one line like this:  
+- Write the sample test case definition in one line like this:
   ``beginCase(); { setSubtasks("1, 2"); } endCase();``
 
 #### 4. Test case generations
 Test case generations are just functions that generates the values of each variables from the problem statement. Here are examples of most commonly used function calls for this purpose. Please refer to testlib.h for full documentation.
 
-- ``rnd.next()``  
+- ``rnd.next()``
 Generates a random double value in range [0, 1).
-- ``rnd.next(X)``  
+- ``rnd.next(X)``
 Generates a random value in range [0, X).
-- ``rnd.next(from, to)``  
+- ``rnd.next(from, to)``
 Generates a random value in range [from, to].
-- ``rnd.next(format("[a-z]{minl, maxl}"))``  
+- ``rnd.next(format("[a-z]{minl, maxl}"))``
 Generates a random string of [minl, maxl] characters 'a'-'z'.
-- ``shuffle(begin, end)``  
+- ``shuffle(begin, end)``
 Random shuffle elements in [begin, end) iterators.
 
 The type of value returned by **rnd.next()** calls depends on the type of the parameters.
@@ -157,9 +155,9 @@ A test case definition is a set of statements with the following structure:
 - Test case generation calls.
 - ``endCase()`` call.
 - Surround the test case generation calls with curly braces ``{`` ``}``.
-- Write the test case definitions in one line like this:  
+- Write the test case definitions in one line like this:
   ``beginCase(); { N = 100; randomTree(); } endCase();``
-- or in multiple line like this:  
+- or in multiple line like this:
 
     ```
     beginCase();
@@ -182,13 +180,13 @@ You must write a function ``void printCase()`` It should print the test case bas
 
 #### 8. Problem configuration
 Inside the ``main()`` function, you should call these functions (between ``beginGenerator()`` and ``endGenerator()``):
-- ``setSlug(slug)``  
-Sets the slug (codename). 
-- ``setMode(mode)``  
+- ``setSlug(slug)``
+Sets the slug (codename).
+- ``setMode(mode)``
 Sets the mode. It should be either "single" (each test case in a single file) or "multiple" (all test cases in a subtask are in a single file, preceded with the number of test cases).
-- ``setSolution(executable)``  
+- ``setSolution(executable)``
 Sets the executable for running the solution. Typically it is "solution". The executable must be present in the working directory.
-- ``setValidator(executable)``  
+- ``setValidator(executable)``
 Sets the executable for running the validator. Typically it is "validator". The executable must be present in the working directory.
 
 Best practices
@@ -212,3 +210,6 @@ Please see the examples provided in **examples/** directory for a better underst
 
 ## Feedback
 Any feedback? Mail me at fushar@gmail.com or post it as an issue :)
+
+## License
+tokilib is released under MIT license.
