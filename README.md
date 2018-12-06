@@ -1,16 +1,13 @@
-# tokilib - Test Case Framework
+# tokilib
 
 
-### WARNING - THIS PROJECT IS DEPRECATED
-
-The next generation of test framework is available in https://github.com/fushar/tcframe. This repository is still here as a legacy.
-
+> tokilib is now deprecated in favor of [ia-toki/tcframe](https://github.com/ia-toki/tcframe).
 
 ***
 
 **tokilib** is a C++ framework for generating test cases for competitive programming problems. It currently only support *batch* problems, i.e. problems whose test cases consist of .in and .out files. It works in UNIX and Windows. It has been used for IOI training camps in Indonesia.
 
-This framework is essentially a wrapper for [testlib](http://code.google.com/p/testlib/) framework.
+This framework is essentially a wrapper for [MikeMirzayanov/testlib](https://github.com/MikeMirzayanov/testlib) framework.
 
 ## Concepts
 First, let's introduce some terms used in tokilib.
@@ -207,9 +204,6 @@ Then, you can see the status of the test case generation. The test cases will be
 
 ## Examples
 Please see the examples provided in **examples/** directory for a better understanding of the best-practice structure of good generators and validators.
-
-## Feedback
-Any feedback? Mail me at fushar@gmail.com or post it as an issue :)
 
 ## License
 tokilib is released under MIT license.
